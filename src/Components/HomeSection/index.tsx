@@ -1,14 +1,9 @@
-import { HomeSectionPropsType } from '../../utils/types';
+interface HomeSectionPropsType {
+  children: React.ReactNode;
+}
 
-const HomeSection: React.FC<HomeSectionPropsType> = ({ name, children }) => {
-  //
-
-  return (
-    <div>
-      <h2>{name}</h2>
-      {children}
-    </div>
-  );
-};
+const HomeSection: React.FC<HomeSectionPropsType> = ({ children }) => (
+  <div>{children}</div>
+);
 
 export default HomeSection;

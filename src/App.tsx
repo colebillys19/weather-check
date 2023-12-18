@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Context from './context';
+import Context, { ContextType } from './context';
 import { Header, HomePage, LocationPage } from './Components';
-import './App.css';
-
 import { DEFAULT_CONTEXT } from './utils/constants';
-import { ContextType } from './utils/types';
+import './App.css';
 
 function App() {
   const [context, setContext] = useState<ContextType>(DEFAULT_CONTEXT);

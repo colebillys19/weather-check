@@ -1,7 +1,15 @@
+header {
+  background-color: #dddddd;
+}
+
 main {
   margin: 0 auto;
   max-width: 512px;
 }
+
+/* * * * * * * * * * */
+/* RESPONSIVE STYLES */
+/* * * * * * * * * * */
 
 /* @media screen and (min-width: 384px) {} */
 
@@ -9,28 +17,20 @@ main {
 
 /* @media screen and (min-width: 640px) {} */
 
-@media screen and (min-width: 768px) {
-  main {
-    max-width: 640px;
-  }
-}
+/* @media screen and (min-width: 768px) {} */
 
-@media screen and (min-width: 896px) {
+/* @media screen and (min-width: 896px) {} */
+
+@media screen and (min-width: 1024px) {
   main {
     max-width: 768px;
   }
 }
 
-@media screen and (min-width: 1024px) {
-  main {
-    max-width: 896px;
-  }
-}
+/* @media screen and (min-width: 1152px) {} */
 
-@media screen and (min-width: 1152px) {
+@media screen and (min-width: 1280px) {
   main {
     max-width: 1024px;
   }
 }
-
-/* @media screen and (min-width: 1280px) {} */

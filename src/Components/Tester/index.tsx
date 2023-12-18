@@ -10,11 +10,16 @@ function Tester() {
       setIsGettingLocation(true);
       navigator.geolocation.getCurrentPosition((position) => {
         setState({
+          ...state,
           location: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
           },
         });
+        localStorage.setItem(
+          'location',
+          `${position.coords.latitude},${position.coords.longitude}`,
+        );
         setIsGettingLocation(false);
       });
     }
@@ -22,8 +27,8 @@ function Tester() {
 
   return (
     <>
-    <div>isGettingLocation: {isGettingLocation ? 'true' : 'false'}</div>
-    <div>Tester - Context Value: {JSON.stringify(state)}</div>
+      <div>isGettingLocation: {isGettingLocation ? 'true' : 'false'}</div>
+      <div>Tester - Context Value: {JSON.stringify(state)}</div>
     </>
   );
 }

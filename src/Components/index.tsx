@@ -1,8 +1,17 @@
-import Tester from './Tester';
-import HomeSection from './HomeSection';
 import Header from './Header';
-import MainContainer from './MainContainer';
+import HomeLocation from './HomeLocation';
 import HomePage from './HomePage';
+import HomeSection from './HomeSection';
 import LocationPage from './LocationPage';
+import MainContainer from './MainContainer';
+import Tester from './Tester';
 
-export { Tester, HomeSection, Header, MainContainer, HomePage, LocationPage };
+export {
+  Header,
+  HomeLocation,
+  HomePage,
+  HomeSection,
+  LocationPage,
+  MainContainer,
+  Tester,
+};
