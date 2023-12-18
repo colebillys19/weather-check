@@ -1,17 +1,20 @@
 import { useState } from 'react';
 
 import Context from './context';
-import { Tester } from './Components';
-import { AppContextType } from './utils/types';
+import { Tester, Logger } from './Components';
 import './App.css';
 
+import { DEFAULT_CONTEXT } from './utils/constants';
+import { AppContextType } from './utils/types';
+
 function App() {
-  const [context] = useState<AppContextType>({ location: { latitude: 0, longitude: 0 } });
+  const [context, setContext] = useState<AppContextType>(DEFAULT_CONTEXT);
 
   return (
-    <Context.Provider value={context}>
+    <Context.Provider value={{ state: context, setState: setContext }}>
       <div className="App">
         <Tester />
+        <Logger />
       </div>
     </Context.Provider>
   );

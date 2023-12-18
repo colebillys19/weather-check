@@ -1,31 +1,21 @@
-import { useContext, useEffect, useState } from 'react';
-
-import Context from '../../context';
-import mockData from './mockData';
+import { useContext, useEffect } from 'react';
+import Context from '../../context'; // import your context
 
 function Tester() {
-  const [data, setData] = useState({});
-
-  const context = useContext(Context);
-
-  // const lon = '40.70264760075978';
-  // const lat = '-73.92374422653394';
-
-  // useEffect(() => {
-  //   async function getData() {
-  //     const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lon=${lon}&lat=${lat}&appid=${process.env.REACT_APP_OWM_KEY}}`);
-  //     const responseJson = await response.json();
-  //     console.log(responseJson);
-  //   }
-  //   getData();
-  // }, []);
+  const { state, setState } = useContext(Context); // use the useContext hook
 
   useEffect(() => {
-    setData(mockData);
-  }, []);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log(`position: ${position.coords.latitude}, ${position.coords.longitude}`);
+        setState({ location: { latitude: position.coords.latitude, longitude: position.coords.longitude } });
+      });
+    }
+  }, [setState]);
 
+  // Now you can use context in your component, and it will update whenever the context changes
   return (
-    <div>Tester</div>
+    <div>Tester - Context Value: {JSON.stringify(state)}</div>
   );
 }
 
