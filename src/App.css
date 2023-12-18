@@ -1,1 +1,36 @@
-/* * */
+main {
+  margin: 0 auto;
+  max-width: 512px;
+}
+
+/* @media screen and (min-width: 384px) {} */
+
+/* @media screen and (min-width: 512px) {} */
+
+/* @media screen and (min-width: 640px) {} */
+
+@media screen and (min-width: 768px) {
+  main {
+    max-width: 640px;
+  }
+}
+
+@media screen and (min-width: 896px) {
+  main {
+    max-width: 768px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  main {
+    max-width: 896px;
+  }
+}
+
+@media screen and (min-width: 1152px) {
+  main {
+    max-width: 1024px;
+  }
+}
+
+/* @media screen and (min-width: 1280px) {} */
