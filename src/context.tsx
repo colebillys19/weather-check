@@ -1,14 +1,9 @@
 import { createContext } from 'react';
 
 import { DEFAULT_CONTEXT } from './utils/constants';
-import { AppContextType } from './utils/types';
+import { ContextPropsType } from './utils/types';
 
-interface ContextProps {
-  state: AppContextType;
-  setState: React.Dispatch<React.SetStateAction<AppContextType>>;
-}
-
-export default createContext<ContextProps>({
+export default createContext<ContextPropsType>({
   state: DEFAULT_CONTEXT,
   setState: () => {},
 });

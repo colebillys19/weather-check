@@ -21,6 +21,6 @@ export const DEFAULT_CITIES = {
   stLouis: { lat: 38.62748329737269, lon: -90.19798600193404 },
   tampa: { lat: 27.95166247732538, lon: -82.45856576478201 },
   washington: { lat: 38.906934370350925, lon: -77.03527050403542 },
-}
+};
 
 export const DEFAULT_CONTEXT = { location: { latitude: 0, longitude: 0 } };
