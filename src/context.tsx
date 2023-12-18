@@ -9,7 +9,8 @@ interface LocationContextType {
 
 export interface ContextType {
   location: LocationContextType;
-  hideDefaultLocation: boolean;
+  hideHomeLocation: boolean;
+  locationServicesDisabled: boolean;
 }
 
 

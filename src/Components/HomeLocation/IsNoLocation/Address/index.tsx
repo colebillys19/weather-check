@@ -4,12 +4,8 @@ const Address = () => {
   return (
     <form>
       <div>
-        <label htmlFor="address1">Address Line 1: </label>
-        <input type="text" id="address1" required />
-      </div>
-      <div>
-        <label htmlFor="address2">Address Line 2: </label>
-        <input type="text" id="address2" required />
+        <label htmlFor="address">Address: </label>
+        <input type="text" id="address" required />
       </div>
       <div>
         <label htmlFor="city">City: </label>
@@ -22,6 +18,10 @@ const Address = () => {
             <option key={abbr} value={abbr}>{name}</option>
           ))}
         </select>
+      </div>
+      <div>
+        <label htmlFor="zip">Zip: </label>
+        <input type="text" id="zip" required />
       </div>
       <div>
         <input type="submit" value="Set Location" />

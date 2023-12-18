@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import Context from '../../context';
 import HomeSection from '../HomeSection';
 
-import IsntLocation from './IsntLocation';
+import IsNoLocation from './IsNoLocation';
 import IsLocation from './IsLocation';
 import Loading from './Loading';
 
@@ -28,7 +28,7 @@ const HomeLocation = () => {
   return (
     <HomeSection>
       {isLoading && <Loading />}
-      {!isLoading && !isContextLocation && <IsntLocation />}
+      {!isLoading && !isContextLocation && <IsNoLocation />}
       {!isLoading && isContextLocation && <IsLocation location={state.location} />}
     </HomeSection>
   );

@@ -34,3 +34,8 @@ main {
     max-width: 1024px;
   }
 }
+
+/* TODO: delete */
+ul.location-select-ul {
+  display: flex;
+}

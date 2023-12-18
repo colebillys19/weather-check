@@ -10,7 +10,7 @@ import GeoLocate from './GeoLocate';
 import Select from './Select';
 import Zip from './Zip';
 
-const IsntLocation = () => {
+const IsNoLocation = () => {
   const [step, setStep] = useState(1);
   const [method, setMethod] = useState('');
 
@@ -18,7 +18,7 @@ const IsntLocation = () => {
 
   const handleButtonClick = (buttonId: string) => {
     if (buttonId === 'skip') {
-      setState({ ...state, hideDefaultLocation: true });
+      setState({ ...state, hideHomeLocation: true });
     } else {
       setMethod(buttonId);
       setStep(2);
@@ -31,7 +31,7 @@ const IsntLocation = () => {
 
   if (step === 2) {
     if (method === 'geolocate') {
-      return <GeoLocate />;
+      return <GeoLocate setStep={setStep} />;
     }
 
     if (method === 'zip') {
@@ -54,4 +54,4 @@ const IsntLocation = () => {
   return <Loading />;
 };
 
-export default IsntLocation;
+export default IsNoLocation;

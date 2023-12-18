@@ -1,14 +1,15 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 
 import Context from '../../../../context';
 
-const GeoLocate = () => {
-  const [isGettingLocation, setIsGettingLocation] = useState(false);
+interface GeolocateProps {
+  setStep: (type: number) => void;
+}
 
+const GeoLocate: React.FC<GeolocateProps> = ({ setStep }) => {
   const { state, setState } = useContext(Context);
 
   useEffect(() => {
-    setIsGettingLocation(true);
     navigator.geolocation.getCurrentPosition((position) => {
       setState({
         ...state,
@@ -21,11 +22,13 @@ const GeoLocate = () => {
         'location',
         `${position.coords.latitude},${position.coords.longitude}`,
       );
-      setIsGettingLocation(false);
+    }, (err) => {
+      setState({ ...state, locationServicesDisabled: true });
+      setStep(1);
     });
   }, []);
 
-  return <div>div</div>;
+  return <div>Getting location...</div>;
 };
 
 export default GeoLocate;

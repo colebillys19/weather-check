@@ -1,6 +1,7 @@
 export const DEFAULT_CONTEXT = {
   location: { lat: 0, lon: 0 },
-  hideDefaultLocation: false,
+  hideHomeLocation: false,
+  locationServicesDisabled: false,
 };
 
 export const DEFAULT_CITIES = {
