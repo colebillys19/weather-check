@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Context, { ContextType } from './context';
+import Context, { ContextType, DEFAULT_CONTEXT } from './context';
 import { Header, HomePage, LocationPage } from './Components';
-import { DEFAULT_CONTEXT } from './utils/constants';
 import './App.css';
 
 function App() {
   const [context, setContext] = useState<ContextType>(DEFAULT_CONTEXT);
 
+  // if navigator.geolocation.getCurrentPosition has any issues, set locationServicesDisabled to true in state
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(() => null, () => {
-      setContext({ ...context, locationServicesDisabled: true });
-    });
+    navigator.geolocation.getCurrentPosition(
+      () => null,
+      () => {
+        setContext({ ...context, locationServicesDisabled: true });
+      },
+    );
   }, []);
 
   return (
@@ -24,7 +27,6 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/location" element={<LocationPage />} />
           </Routes>
-          {/* <Tester /> */}
         </div>
       </Context.Provider>
     </Router>

@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import Context from '../../../context';
 
 import Loading from '../Loading';
-import Address from './Address';
+import ManualEntry from './ManualEntry';
 import Coords from './Coords';
 import GeoLocate from './GeoLocate';
 import Select from './Select';
@@ -14,7 +14,7 @@ const IsNoLocation = () => {
 
   const { state, setState } = useContext(Context);
 
-  const handleButtonClick = (buttonId: string) => {
+  const setFormType = (buttonId: string) => {
     if (buttonId === 'skip') {
       setState({ ...state, hideHomeLocation: true });
     } else {
@@ -24,7 +24,7 @@ const IsNoLocation = () => {
   };
 
   if (step === 1) {
-    return <Select handleButtonClick={handleButtonClick} />;
+    return <Select setFormType={setFormType} />;
   }
 
   if (step === 2) {
@@ -32,12 +32,12 @@ const IsNoLocation = () => {
       return <GeoLocate setStep={setStep} />;
     }
 
-    if (method === 'address') {
-      return <Address />;
+    if (method === 'manual') {
+      return <ManualEntry setFormType={setFormType} setStep={setStep} />;
     }
 
     if (method === 'coords') {
-      return <Coords />;
+      return <Coords setFormType={setFormType} />;
     }
   }
 

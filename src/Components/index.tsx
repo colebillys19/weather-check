@@ -4,7 +4,6 @@ import HomePage from './HomePage';
 import HomeSection from './HomeSection';
 import LocationPage from './LocationPage';
 import MainContainer from './MainContainer';
-import Tester from './Tester';
 
 export {
   Header,
@@ -13,5 +12,4 @@ export {
   HomeSection,
   LocationPage,
   MainContainer,
-  Tester,
 };
