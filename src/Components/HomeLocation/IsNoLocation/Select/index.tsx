@@ -13,32 +13,28 @@ const Select: React.FC<SelectProps> = ({ handleButtonClick }) => {
     <>
       <p>How should we find your location?</p>
       <div>
-        <button onClick={() => handleButtonClick('geolocate')} disabled={state.locationServicesDisabled}>
+        <button
+          onClick={() => handleButtonClick('geolocate')}
+          disabled={state.locationServicesDisabled}
+        >
           Get location via browser
         </button>
-        {state.locationServicesDisabled && <span>(Looks like your browser location services are disabled)</span>}
+        {state.locationServicesDisabled && (
+          <p>
+            Either browser or computer settings are preventing this page from accessing your location.
+          </p>
+        )}
       </div>
-      <ul className="location-select-ul">
-        {/* TODO: delete class */}
-        <li>
-          <button onClick={() => handleButtonClick('zip')}>
-            Enter zip code
-          </button>
-        </li>
-        <li>
-          <button onClick={() => handleButtonClick('city')}>Enter city</button>
-        </li>
-        <li>
-          <button onClick={() => handleButtonClick('address')}>
-            Enter address
-          </button>
-        </li>
-        <li>
-          <button onClick={() => handleButtonClick('coords')}>
-            Enter coordinates
-          </button>
-        </li>
-      </ul>
+      <div>
+        <button onClick={() => handleButtonClick('address')}>
+          Manually enter either an address, city, or zip code
+        </button>
+      </div>
+      <div>
+        <button onClick={() => handleButtonClick('coords')}>
+          Enter coordinates
+        </button>
+      </div>
       <div>
         <button onClick={() => handleButtonClick('skip')}>
           Don't find my location

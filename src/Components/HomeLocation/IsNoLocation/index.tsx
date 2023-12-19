@@ -4,11 +4,9 @@ import Context from '../../../context';
 
 import Loading from '../Loading';
 import Address from './Address';
-import City from './City';
 import Coords from './Coords';
 import GeoLocate from './GeoLocate';
 import Select from './Select';
-import Zip from './Zip';
 
 const IsNoLocation = () => {
   const [step, setStep] = useState(1);
@@ -32,14 +30,6 @@ const IsNoLocation = () => {
   if (step === 2) {
     if (method === 'geolocate') {
       return <GeoLocate setStep={setStep} />;
-    }
-
-    if (method === 'zip') {
-      return <Zip />;
-    }
-
-    if (method === 'city') {
-      return <City />;
     }
 
     if (method === 'address') {

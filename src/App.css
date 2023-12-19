@@ -36,6 +36,6 @@ main {
 }
 
 /* TODO: delete */
-ul.location-select-ul {
-  display: flex;
+input.address-search-field {
+  width: 300px;
 }
