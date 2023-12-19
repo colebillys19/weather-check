@@ -1,6 +1,4 @@
-import { FC, useContext, useState } from 'react';
-
-import Context from '../../../context';
+import { FC, useState } from 'react';
 
 import Coords from './Coords';
 import ManualEntry from './ManualEntry';
@@ -22,8 +20,6 @@ const IsNoLocation: FC<IsNoLocationProps> = ({
   const [step, setStep] = useState(1);
   const [method, setMethod] = useState('');
 
-  const { state, setState } = useContext(Context);
-
   const setFormType = (buttonId: string) => {
     if (buttonId === 'skip') {
       setHideHomeLocation(true);
@@ -33,36 +29,13 @@ const IsNoLocation: FC<IsNoLocationProps> = ({
     }
   };
 
-  const useGeolocate = () => {
-    setIsHomeLocationLoading(true);
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setState({
-          ...state,
-          location: {
-            lat: position.coords.latitude,
-            lon: position.coords.longitude,
-          },
-        });
-        localStorage.setItem(
-          'location',
-          `${position.coords.latitude},${position.coords.longitude}`,
-        );
-        setIsHomeLocationLoading(false);
-      },
-      () => {
-        setLocationServicesDisabled(true);
-        setIsHomeLocationLoading(false);
-      },
-    );
-  };
-
   if (step === 1) {
     return (
       <Select
         locationServicesDisabled={locationServicesDisabled}
         setFormType={setFormType}
-        useGeolocate={useGeolocate}
+        setIsHomeLocationLoading={setIsHomeLocationLoading}
+        setLocationServicesDisabled={setLocationServicesDisabled}
       />
     );
   }

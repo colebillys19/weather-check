@@ -68,10 +68,9 @@ const ManualEntry: FC<ManualEntryProps> = ({
           ) => {
             if (status === google.maps.GeocoderStatus.OK) {
               const location = results[0].geometry.location;
-              const lat = location.lat();
-              const lon = location.lng();
-              setState({ ...state, location: { lat, lon } });
-              localStorage.setItem('location', `${lat},${lon}`);
+              const locationStr = `${location.lat()},${location.lng()}`;
+              setState({ ...state, userLocation: locationStr });
+              localStorage.setItem('location', locationStr);
               resolve(true);
             } else {
               console.error('Promise rejected:', status);

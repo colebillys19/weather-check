@@ -24,18 +24,14 @@ const HomeLocation: FC<HomeLocationProps> = ({
   const { state, setState } = useContext(Context);
 
   useEffect(() => {
-    setIsContextLocation(state.location.lat !== 0 || state.location.lon !== 0);
-  }, [state.location.lat, state.location.lon]);
+    setIsContextLocation(state.userLocation.length > 0);
+  }, [state.userLocation]);
 
   useEffect(() => {
-    if (state.location.lat === 0 || state.location.lon === 0) {
+    if (state.userLocation === '') {
       const storageLocation = localStorage.getItem('location');
       if (!!storageLocation) {
-        const [lat, lon] = storageLocation.split(',');
-        setState({
-          ...state,
-          location: { lat: Number(lat), lon: Number(lon) },
-        });
+        setState({ ...state, userLocation: storageLocation });
       }
     }
     setIsHomeLocationLoading(false);

@@ -5,11 +5,7 @@ import Context from '../../../context';
 const IsLocation = () => {
   const { state } = useContext(Context);
 
-  return (
-    <p>
-      Location: {state.location.lat}, {state.location.lon}
-    </p>
-  );
+  return <p>Location: {state.userLocation}</p>;
 };
 
 export default IsLocation;

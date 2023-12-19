@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Context, { ContextType, DEFAULT_CONTEXT } from './context';
+import Context, { DEFAULT_CONTEXT } from './context';
 import { Header, HomePage, LocationPage } from './Components';
+import { ContextType } from './utils/globalTypes';
 import './App.css';
 
 function App() {
@@ -18,6 +19,10 @@ function App() {
         setLocationServicesDisabled(true);
       },
     );
+  }, []);
+
+  useEffect(() => {
+    
   }, []);
 
   return (
