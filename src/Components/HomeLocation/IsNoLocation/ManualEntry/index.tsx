@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState, ChangeEvent } from 'react';
+import { useContext, useEffect, useRef, useState, FormEvent } from 'react';
 import { Loader, Libraries } from '@googlemaps/js-api-loader';
 
 import Context from '../../../../context';
@@ -37,7 +37,6 @@ const ManualEntry: React.FC<ManualEntryProps> = ({ setFormType, setStep }) => {
 
     googleApiInit();
 
-    // Clean up
     return () => {
       if (autoCompleteRef.current) {
         google.maps.event.clearInstanceListeners(autoCompleteRef.current);
@@ -45,13 +44,11 @@ const ManualEntry: React.FC<ManualEntryProps> = ({ setFormType, setStep }) => {
     };
   }, []);
 
-  //
   const handleChange = () => {
     setIsInputDisabled(!inputRef.current || inputRef.current.value === '');
   };
 
-  //
-  const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
