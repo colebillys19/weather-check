@@ -2,13 +2,23 @@ import { useContext, useState } from 'react';
 
 import Context from '../../../context';
 
-import Loading from '../Loading';
-import ManualEntry from './ManualEntry';
 import Coords from './Coords';
-import GeoLocate from './GeoLocate';
+import ManualEntry from './ManualEntry';
 import Select from './Select';
 
-const IsNoLocation = () => {
+interface IsNoLocationProps {
+  locationServicesDisabled: boolean;
+  setHideHomeLocation: (value: boolean) => void;
+  setIsHomeLocationLoading: (value: boolean) => void;
+  setLocationServicesDisabled: (value: boolean) => void;
+}
+
+const IsNoLocation: React.FC<IsNoLocationProps> = ({
+  locationServicesDisabled,
+  setHideHomeLocation,
+  setIsHomeLocationLoading,
+  setLocationServicesDisabled,
+}) => {
   const [step, setStep] = useState(1);
   const [method, setMethod] = useState('');
 
@@ -16,32 +26,69 @@ const IsNoLocation = () => {
 
   const setFormType = (buttonId: string) => {
     if (buttonId === 'skip') {
-      setState({ ...state, hideHomeLocation: true });
+      setHideHomeLocation(true);
     } else {
       setMethod(buttonId);
       setStep(2);
     }
   };
 
+  const useGeolocate = () => {
+    setIsHomeLocationLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setState({
+          ...state,
+          location: {
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          },
+        });
+        localStorage.setItem(
+          'location',
+          `${position.coords.latitude},${position.coords.longitude}`,
+        );
+        setIsHomeLocationLoading(false);
+      },
+      () => {
+        setLocationServicesDisabled(true);
+        setIsHomeLocationLoading(false);
+      },
+    );
+  };
+
   if (step === 1) {
-    return <Select setFormType={setFormType} />;
+    return (
+      <Select
+        locationServicesDisabled={locationServicesDisabled}
+        setFormType={setFormType}
+        useGeolocate={useGeolocate}
+      />
+    );
   }
 
   if (step === 2) {
-    if (method === 'geolocate') {
-      return <GeoLocate setStep={setStep} />;
-    }
-
     if (method === 'manual') {
-      return <ManualEntry setFormType={setFormType} setStep={setStep} />;
+      return (
+        <ManualEntry
+          setFormType={setFormType}
+          setIsHomeLocationLoading={setIsHomeLocationLoading}
+          setStep={setStep}
+        />
+      );
     }
 
     if (method === 'coords') {
-      return <Coords setFormType={setFormType} />;
+      return (
+        <Coords
+          setFormType={setFormType}
+          setIsHomeLocationLoading={setIsHomeLocationLoading}
+        />
+      );
     }
   }
 
-  return <Loading />;
+  return <div />;
 };
 
 export default IsNoLocation;

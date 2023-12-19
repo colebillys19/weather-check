@@ -1,16 +1,29 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import Context from '../../context';
 import MainContainer from '../MainContainer';
 import HomeSection from '../HomeSection';
 import HomeLocation from '../HomeLocation';
 
-const HomePage = () => {
-  const { state } = useContext(Context);
+interface HomePageProps {
+  locationServicesDisabled: boolean;
+  setLocationServicesDisabled: (value: boolean) => void;
+}
+
+const HomePage: React.FC<HomePageProps> = ({
+  locationServicesDisabled,
+  setLocationServicesDisabled,
+}) => {
+  const [hideHomeLocation, setHideHomeLocation] = useState(false);
 
   return (
     <MainContainer>
-      {!state.hideHomeLocation && <HomeLocation />}
+      {!hideHomeLocation && (
+        <HomeLocation
+          locationServicesDisabled={locationServicesDisabled}
+          setHideHomeLocation={setHideHomeLocation}
+          setLocationServicesDisabled={setLocationServicesDisabled}
+        />
+      )}
       <HomeSection>
         <h2>Map</h2>
         <p>

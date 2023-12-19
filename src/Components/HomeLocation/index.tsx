@@ -7,18 +7,30 @@ import IsNoLocation from './IsNoLocation';
 import IsLocation from './IsLocation';
 import Loading from './Loading';
 
-const HomeLocation = () => {
-  const [isLoading, setIsLoading] = useState(true);
+interface HomeLocationProps {
+  locationServicesDisabled: boolean;
+  setHideHomeLocation: (value: boolean) => void;
+  setLocationServicesDisabled: (value: boolean) => void;
+}
+
+const HomeLocation: React.FC<HomeLocationProps> = ({
+  locationServicesDisabled,
+  setHideHomeLocation,
+  setLocationServicesDisabled,
+}) => {
+  const [isHomeLocationLoading, setIsHomeLocationLoading] = useState(true);
+  const [isContextLocation, setIsContextLocation] = useState(false);
 
   const { state, setState } = useContext(Context);
 
-  const isContextLocation =
-    state.location.lat !== 0 || state.location.lon !== 0;
+  useEffect(() => {
+    setIsContextLocation(state.location.lat !== 0 || state.location.lon !== 0);
+  }, [state.location.lat, state.location.lon]);
 
   useEffect(() => {
-    if (!isContextLocation) {
+    if (state.location.lat === 0 || state.location.lon === 0) {
       const storageLocation = localStorage.getItem('location');
-      if (storageLocation) {
+      if (!!storageLocation) {
         const [lat, lon] = storageLocation.split(',');
         setState({
           ...state,
@@ -26,17 +38,22 @@ const HomeLocation = () => {
         });
       }
     }
-    setIsLoading(false);
+    setIsHomeLocationLoading(false);
   }, []);
 
   return (
     <HomeSection>
+      {isHomeLocationLoading && <Loading />}
       <div style={{ outline: '1px solid purple', padding: '12px' }}>
-        {isLoading && <Loading />}
-        {!isLoading && !isContextLocation && <IsNoLocation />}
-        {!isLoading && isContextLocation && (
-          <IsLocation location={state.location} />
+        {!isContextLocation && (
+          <IsNoLocation
+            locationServicesDisabled={locationServicesDisabled}
+            setHideHomeLocation={setHideHomeLocation}
+            setIsHomeLocationLoading={setIsHomeLocationLoading}
+            setLocationServicesDisabled={setLocationServicesDisabled}
+          />
         )}
+        {isContextLocation && <IsLocation />}
       </div>
     </HomeSection>
   );

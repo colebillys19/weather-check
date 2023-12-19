@@ -7,10 +7,10 @@ const isValidLon = (num: number) => num >= -180 && num <= 180;
 
 interface CoordsProps {
   setFormType: (type: string) => void;
+  setIsHomeLocationLoading: (value: boolean) => void;
 }
 
-const Coords: React.FC<CoordsProps> = ({ setFormType }) => {
-  const [isLoading, setIsLoading] = useState(false);
+const Coords: React.FC<CoordsProps> = ({ setFormType, setIsHomeLocationLoading }) => {
   const [inputError, setInputError] = useState('');
   const [latValue, setLatValue] = useState('');
   const [lonValue, setLonValue] = useState('');
@@ -33,11 +33,11 @@ const Coords: React.FC<CoordsProps> = ({ setFormType }) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsHomeLocationLoading(true);
 
     if (!isValidLat(Number(latValue)) || !isValidLon(Number(lonValue))) {
       setInputError('Invalid coordinates');
-      setIsLoading(false);
+      setIsHomeLocationLoading(false);
       return;
     }
 
@@ -63,14 +63,14 @@ const Coords: React.FC<CoordsProps> = ({ setFormType }) => {
               console.error('Promise rejected:', status);
               reject(false);
             }
-            setIsLoading(false);
+            setIsHomeLocationLoading(false);
           },
         );
       });
     } catch (error) {
       setInputError('Invalid coordinates');
       console.error('Error:', error);
-      setIsLoading(false);
+      setIsHomeLocationLoading(false);
     }
   };
 
@@ -94,7 +94,6 @@ const Coords: React.FC<CoordsProps> = ({ setFormType }) => {
         </div>
       </form>
       {!!inputError && <div style={{ color: 'red' }}>{inputError}</div>}
-      {isLoading && <div>Loading...</div>}
       <a onClick={() => setFormType('manual')} href="#">
         Back
       </a>

@@ -3,7 +3,7 @@ interface HomeSectionPropsType {
 }
 
 const HomeSection: React.FC<HomeSectionPropsType> = ({ children }) => (
-  <div>{children}</div>
+  <div style={{ position: 'relative' }}>{children}</div>
 );
 
 export default HomeSection;

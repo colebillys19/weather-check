@@ -1,18 +1,15 @@
-interface LocationType {
-  lat: number;
-  lon: number;
-}
+import { useContext } from 'react';
 
-interface IsLocationPropsType {
-  location: LocationType;
-}
+import Context from '../../../context';
 
-const IsLocation: React.FC<IsLocationPropsType> = ({ location }) => (
-  <>
+const IsLocation = () => {
+  const { state } = useContext(Context);
+
+  return (
     <p>
-      Location: {location.lat}, {location.lon}
+      Location: {state.location.lat}, {state.location.lon}
     </p>
-  </>
-);
+  );
+};
 
 export default IsLocation;

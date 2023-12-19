@@ -5,12 +5,16 @@ import Context from '../../../../context';
 
 interface ManualEntryProps {
   setFormType: (type: string) => void;
-  setStep: (type: number) => void;
+  setIsHomeLocationLoading: (value: boolean) => void;
+  setStep: (step: number) => void;
 }
 
-const ManualEntry: React.FC<ManualEntryProps> = ({ setFormType, setStep }) => {
+const ManualEntry: React.FC<ManualEntryProps> = ({
+  setFormType,
+  setIsHomeLocationLoading,
+  setStep,
+}) => {
   const [isInputDisabled, setIsInputDisabled] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
 
   const loaderRef = useRef<Loader | null>(null);
   const autoCompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
@@ -50,7 +54,7 @@ const ManualEntry: React.FC<ManualEntryProps> = ({ setFormType, setStep }) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsHomeLocationLoading(true);
 
     try {
       const geocoder = new google.maps.Geocoder();
@@ -67,19 +71,19 @@ const ManualEntry: React.FC<ManualEntryProps> = ({ setFormType, setStep }) => {
               const lat = location.lat();
               const lon = location.lng();
               setState({ ...state, location: { lat, lon } });
-              localStorage.setItem('location',`${lat},${lon}`);
+              localStorage.setItem('location', `${lat},${lon}`);
               resolve(true);
             } else {
               console.error('Promise rejected:', status);
               reject(false);
             }
-            setIsLoading(false);
+            setIsHomeLocationLoading(false);
           },
         );
       });
     } catch (error) {
       console.error('Error:', error);
-      setIsLoading(false);
+      setIsHomeLocationLoading(false);
     }
   };
 
@@ -106,7 +110,6 @@ const ManualEntry: React.FC<ManualEntryProps> = ({ setFormType, setStep }) => {
           />
         </div>
       </form>
-      {isLoading && <div>Loading...</div>}
       <div>
         <a onClick={() => setFormType('coords')} href="#">
           Enter exact coordinates
