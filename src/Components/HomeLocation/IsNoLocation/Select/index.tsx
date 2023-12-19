@@ -1,10 +1,12 @@
+import { FC } from 'react';
+
 interface SelectProps {
   locationServicesDisabled: boolean;
   setFormType: (type: string) => void;
   useGeolocate: () => void;
 }
 
-const Select: React.FC<SelectProps> = ({ locationServicesDisabled, setFormType, useGeolocate }) => (
+const Select: FC<SelectProps> = ({ locationServicesDisabled, setFormType, useGeolocate }) => (
   <>
     <p>How should we find your location?</p>
     <div style={{ backgroundColor: '#c4b7ff' }}>

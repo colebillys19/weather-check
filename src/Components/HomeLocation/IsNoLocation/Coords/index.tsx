@@ -1,4 +1,4 @@
-import { useContext, useState, ChangeEvent, FormEvent } from 'react';
+import { FC, useContext, useState, ChangeEvent, FormEvent } from 'react';
 
 import Context from '../../../../context';
 
@@ -10,7 +10,7 @@ interface CoordsProps {
   setIsHomeLocationLoading: (value: boolean) => void;
 }
 
-const Coords: React.FC<CoordsProps> = ({ setFormType, setIsHomeLocationLoading }) => {
+const Coords: FC<CoordsProps> = ({ setFormType, setIsHomeLocationLoading }) => {
   const [inputError, setInputError] = useState('');
   const [latValue, setLatValue] = useState('');
   const [lonValue, setLonValue] = useState('');
@@ -56,7 +56,7 @@ const Coords: React.FC<CoordsProps> = ({ setFormType, setIsHomeLocationLoading }
               const lat = location.lat();
               const lon = location.lng();
               setState({ ...state, location: { lat, lon } });
-              localStorage.setItem('location',`${lat},${lon}`);
+              localStorage.setItem('location', `${lat},${lon}`);
               resolve(true);
             } else {
               setInputError('Invalid coordinates');
@@ -79,11 +79,23 @@ const Coords: React.FC<CoordsProps> = ({ setFormType, setIsHomeLocationLoading }
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="lat">Latitude: </label>
-          <input onChange={handleLatChange} type="number" id="lat" value={latValue} required />
+          <input
+            onChange={handleLatChange}
+            type="number"
+            id="lat"
+            value={latValue}
+            required
+          />
         </div>
         <div>
           <label htmlFor="lon">Longitude: </label>
-          <input onChange={handleLonChange} type="number" id="lon" value={lonValue} required />
+          <input
+            onChange={handleLonChange}
+            type="number"
+            id="lon"
+            value={lonValue}
+            required
+          />
         </div>
         <div>
           <input

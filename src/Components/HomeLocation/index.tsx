@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 
 import Context from '../../context';
 import HomeSection from '../HomeSection';
@@ -13,7 +13,7 @@ interface HomeLocationProps {
   setLocationServicesDisabled: (value: boolean) => void;
 }
 
-const HomeLocation: React.FC<HomeLocationProps> = ({
+const HomeLocation: FC<HomeLocationProps> = ({
   locationServicesDisabled,
   setHideHomeLocation,
   setLocationServicesDisabled,

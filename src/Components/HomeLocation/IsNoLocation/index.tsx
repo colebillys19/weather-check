@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 
 import Context from '../../../context';
 
@@ -13,7 +13,7 @@ interface IsNoLocationProps {
   setLocationServicesDisabled: (value: boolean) => void;
 }
 
-const IsNoLocation: React.FC<IsNoLocationProps> = ({
+const IsNoLocation: FC<IsNoLocationProps> = ({
   locationServicesDisabled,
   setHideHomeLocation,
   setIsHomeLocationLoading,

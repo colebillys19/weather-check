@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
 import MainContainer from '../MainContainer';
 import HomeSection from '../HomeSection';
@@ -9,7 +9,7 @@ interface HomePageProps {
   setLocationServicesDisabled: (value: boolean) => void;
 }
 
-const HomePage: React.FC<HomePageProps> = ({
+const HomePage: FC<HomePageProps> = ({
   locationServicesDisabled,
   setLocationServicesDisabled,
 }) => {

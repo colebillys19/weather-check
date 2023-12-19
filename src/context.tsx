@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { Dispatch, createContext, SetStateAction } from 'react';
 
 interface LocationContextType {
   lat: number;
@@ -12,7 +12,7 @@ export interface ContextType {
 
 interface ContextPropsType {
   state: ContextType;
-  setState: React.Dispatch<React.SetStateAction<ContextType>>;
+  setState: Dispatch<SetStateAction<ContextType>>;
 }
 
 export const DEFAULT_CONTEXT = {

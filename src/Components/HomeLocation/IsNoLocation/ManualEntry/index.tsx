@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState, FormEvent } from 'react';
+import { FC, useContext, useEffect, useRef, useState, FormEvent } from 'react';
 import { Loader, Libraries } from '@googlemaps/js-api-loader';
 
 import Context from '../../../../context';
@@ -9,7 +9,7 @@ interface ManualEntryProps {
   setStep: (step: number) => void;
 }
 
-const ManualEntry: React.FC<ManualEntryProps> = ({
+const ManualEntry: FC<ManualEntryProps> = ({
   setFormType,
   setIsHomeLocationLoading,
   setStep,
