@@ -8,21 +8,15 @@ import './App.css';
 
 function App() {
   const [context, setContext] = useState<ContextType>(DEFAULT_CONTEXT);
-  const [locationServicesDisabled, setLocationServicesDisabled] =
-    useState(false);
 
   // if navigator.geolocation.getCurrentPosition has any issues, set locationServicesDisabled to true in state
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       () => null,
       () => {
-        setLocationServicesDisabled(true);
+        setContext({ ...context, locationServicesDisabled: true });
       },
     );
-  }, []);
-
-  useEffect(() => {
-    
   }, []);
 
   return (
@@ -34,10 +28,7 @@ function App() {
             <Route
               path="/"
               element={
-                <HomePage
-                  locationServicesDisabled={locationServicesDisabled}
-                  setLocationServicesDisabled={setLocationServicesDisabled}
-                />
+                <HomePage />
               }
             />
             <Route path="/location" element={<LocationPage />} />

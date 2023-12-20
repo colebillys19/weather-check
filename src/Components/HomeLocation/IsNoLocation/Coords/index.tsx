@@ -7,10 +7,10 @@ const isValidLon = (num: number) => num >= -180 && num <= 180;
 
 interface CoordsProps {
   setFormType: (type: string) => void;
-  setIsHomeLocationLoading: (value: boolean) => void;
+  setIsCheckingIfAddressExists: (value: boolean) => void;
 }
 
-const Coords: FC<CoordsProps> = ({ setFormType, setIsHomeLocationLoading }) => {
+const Coords: FC<CoordsProps> = ({ setFormType, setIsCheckingIfAddressExists }) => {
   const [inputError, setInputError] = useState('');
   const [latValue, setLatValue] = useState('');
   const [lonValue, setLonValue] = useState('');
@@ -33,15 +33,15 @@ const Coords: FC<CoordsProps> = ({ setFormType, setIsHomeLocationLoading }) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsHomeLocationLoading(true);
 
     if (!isValidLat(Number(latValue)) || !isValidLon(Number(lonValue))) {
       setInputError('Invalid coordinates');
-      setIsHomeLocationLoading(false);
       return;
     }
 
     try {
+      setIsCheckingIfAddressExists(true);
+
       const geocoder = new google.maps.Geocoder();
 
       new Promise((resolve, reject) => {
@@ -62,14 +62,14 @@ const Coords: FC<CoordsProps> = ({ setFormType, setIsHomeLocationLoading }) => {
               console.error('Promise rejected:', status);
               reject(false);
             }
-            setIsHomeLocationLoading(false);
+            setIsCheckingIfAddressExists(false);
           },
         );
       });
     } catch (error) {
       setInputError('Invalid coordinates');
       console.error('Error:', error);
-      setIsHomeLocationLoading(false);
+      setIsCheckingIfAddressExists(false);
     }
   };
 

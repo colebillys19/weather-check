@@ -8,21 +8,19 @@ import IsLocation from './IsLocation';
 import Loading from './Loading';
 
 interface HomeLocationProps {
-  locationServicesDisabled: boolean;
   setHideHomeLocation: (value: boolean) => void;
-  setLocationServicesDisabled: (value: boolean) => void;
 }
 
-const HomeLocation: FC<HomeLocationProps> = ({
-  locationServicesDisabled,
-  setHideHomeLocation,
-  setLocationServicesDisabled,
-}) => {
-  const [isHomeLocationLoading, setIsHomeLocationLoading] = useState(true);
+const HomeLocation: FC<HomeLocationProps> = ({ setHideHomeLocation }) => {
+  const [isCheckingLocalStorage, setIsCheckingLocalStorage] = useState(false);
+  const [isAttemptingToGeolocate, setIsAttemptingToGeolocate] = useState(false);
+  const [isCheckingIfAddressExists, setIsCheckingIfAddressExists] =
+    useState(false);
   const [isContextLocation, setIsContextLocation] = useState(false);
 
   const { state, setState } = useContext(Context);
 
+  // update local state based on context state
   useEffect(() => {
     setIsContextLocation(state.userLocation.length > 0);
   }, [state.userLocation]);
@@ -34,8 +32,14 @@ const HomeLocation: FC<HomeLocationProps> = ({
         setState({ ...state, userLocation: storageLocation });
       }
     }
-    setIsHomeLocationLoading(false);
+    setIsCheckingLocalStorage(false);
   }, []);
+
+  const isHomeLocationLoading =
+    state.locationServicesDisabled === null ||
+    isCheckingLocalStorage ||
+    isAttemptingToGeolocate ||
+    isCheckingIfAddressExists;
 
   return (
     <HomeSection>
@@ -43,10 +47,9 @@ const HomeLocation: FC<HomeLocationProps> = ({
       <div style={{ outline: '1px solid purple', padding: '12px' }}>
         {!isContextLocation && (
           <IsNoLocation
-            locationServicesDisabled={locationServicesDisabled}
             setHideHomeLocation={setHideHomeLocation}
-            setIsHomeLocationLoading={setIsHomeLocationLoading}
-            setLocationServicesDisabled={setLocationServicesDisabled}
+            setIsAttemptingToGeolocate={setIsAttemptingToGeolocate}
+            setIsCheckingIfAddressExists={setIsCheckingIfAddressExists}
           />
         )}
         {isContextLocation && <IsLocation />}

@@ -5,17 +5,15 @@ import ManualEntry from './ManualEntry';
 import Select from './Select';
 
 interface IsNoLocationProps {
-  locationServicesDisabled: boolean;
   setHideHomeLocation: (value: boolean) => void;
-  setIsHomeLocationLoading: (value: boolean) => void;
-  setLocationServicesDisabled: (value: boolean) => void;
+  setIsAttemptingToGeolocate: (value: boolean) => void;
+  setIsCheckingIfAddressExists: (value: boolean) => void;
 }
 
 const IsNoLocation: FC<IsNoLocationProps> = ({
-  locationServicesDisabled,
   setHideHomeLocation,
-  setIsHomeLocationLoading,
-  setLocationServicesDisabled,
+  setIsAttemptingToGeolocate,
+  setIsCheckingIfAddressExists,
 }) => {
   const [step, setStep] = useState(1);
   const [method, setMethod] = useState('');
@@ -32,10 +30,8 @@ const IsNoLocation: FC<IsNoLocationProps> = ({
   if (step === 1) {
     return (
       <Select
-        locationServicesDisabled={locationServicesDisabled}
         setFormType={setFormType}
-        setIsHomeLocationLoading={setIsHomeLocationLoading}
-        setLocationServicesDisabled={setLocationServicesDisabled}
+        setIsAttemptingToGeolocate={setIsAttemptingToGeolocate}
       />
     );
   }
@@ -45,7 +41,7 @@ const IsNoLocation: FC<IsNoLocationProps> = ({
       return (
         <ManualEntry
           setFormType={setFormType}
-          setIsHomeLocationLoading={setIsHomeLocationLoading}
+          setIsCheckingIfAddressExists={setIsCheckingIfAddressExists}
           setStep={setStep}
         />
       );
@@ -55,7 +51,7 @@ const IsNoLocation: FC<IsNoLocationProps> = ({
       return (
         <Coords
           setFormType={setFormType}
-          setIsHomeLocationLoading={setIsHomeLocationLoading}
+          setIsCheckingIfAddressExists={setIsCheckingIfAddressExists}
         />
       );
     }

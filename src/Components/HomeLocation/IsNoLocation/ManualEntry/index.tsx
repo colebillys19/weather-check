@@ -5,13 +5,13 @@ import Context from '../../../../context';
 
 interface ManualEntryProps {
   setFormType: (type: string) => void;
-  setIsHomeLocationLoading: (value: boolean) => void;
+  setIsCheckingIfAddressExists: (value: boolean) => void;
   setStep: (step: number) => void;
 }
 
 const ManualEntry: FC<ManualEntryProps> = ({
   setFormType,
-  setIsHomeLocationLoading,
+  setIsCheckingIfAddressExists,
   setStep,
 }) => {
   const [isInputDisabled, setIsInputDisabled] = useState(true);
@@ -54,7 +54,7 @@ const ManualEntry: FC<ManualEntryProps> = ({
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsHomeLocationLoading(true);
+    setIsCheckingIfAddressExists(true);
 
     try {
       const geocoder = new google.maps.Geocoder();
@@ -76,13 +76,13 @@ const ManualEntry: FC<ManualEntryProps> = ({
               console.error('Promise rejected:', status);
               reject(false);
             }
-            setIsHomeLocationLoading(false);
+            setIsCheckingIfAddressExists(false);
           },
         );
       });
     } catch (error) {
       console.error('Error:', error);
-      setIsHomeLocationLoading(false);
+      setIsCheckingIfAddressExists(false);
     }
   };
 

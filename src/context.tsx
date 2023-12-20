@@ -7,7 +7,7 @@ interface ContextPropsType {
   setState: Dispatch<SetStateAction<ContextType>>;
 }
 
-export const DEFAULT_CONTEXT = { userLocation: '' };
+export const DEFAULT_CONTEXT = { locationServicesDisabled: null, userLocation: '' };
 
 export default createContext<ContextPropsType>({
   state: DEFAULT_CONTEXT,
