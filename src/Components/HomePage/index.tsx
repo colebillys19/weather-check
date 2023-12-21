@@ -7,12 +7,14 @@ import HomeLocation from '../HomeLocation';
 interface HomePageProps {
   locationServicesDisabled: boolean | null;
   setUserLocation: (value: string) => void;
+  unitType: string;
   userLocation: string;
 }
 
 const HomePage: FC<HomePageProps> = ({
   locationServicesDisabled,
   setUserLocation,
+  unitType,
   userLocation,
 }) => {
   const [hideHomeLocation, setHideHomeLocation] = useState(false);
@@ -25,6 +27,7 @@ const HomePage: FC<HomePageProps> = ({
           locationServicesDisabled={locationServicesDisabled}
           setUserLocation={setUserLocation}
           userLocation={userLocation}
+          unitType={unitType}
         />
       )}
       <HomeSection>

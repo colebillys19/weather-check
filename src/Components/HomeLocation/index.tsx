@@ -10,6 +10,7 @@ interface HomeLocationProps {
   locationServicesDisabled: boolean | null;
   setHideHomeLocation: (value: boolean) => void;
   setUserLocation: (value: string) => void;
+  unitType: string;
   userLocation: string;
 }
 
@@ -17,6 +18,7 @@ const HomeLocation: FC<HomeLocationProps> = ({
   locationServicesDisabled,
   setHideHomeLocation,
   setUserLocation,
+  unitType,
   userLocation,
 }) => {
   useEffect(() => {
@@ -35,7 +37,7 @@ const HomeLocation: FC<HomeLocationProps> = ({
   return (
     <HomeSection>
       {!!userLocation ? (
-        <IsLocation userLocation={userLocation} />
+        <IsLocation unitType={unitType} userLocation={userLocation} />
       ) : (
         <IsNoLocation
           locationServicesDisabled={locationServicesDisabled}

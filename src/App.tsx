@@ -5,8 +5,11 @@ import { Header, HomePage, LocationPage } from './Components';
 import './App.css';
 
 function App() {
-  const [locationServicesDisabled, setLocationServicesDisabled] = useState<boolean | null>(null);
+  const [locationServicesDisabled, setLocationServicesDisabled] = useState<
+    boolean | null
+  >(null);
   const [userLocation, setUserLocation] = useState('');
+  const [unitType, setUnitType] = useState('imperial');
 
   // if navigator.geolocation.getCurrentPosition has any issues, set locationServicesDisabled to true in state
   useEffect(() => {
@@ -21,7 +24,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Header />
+        <Header setUnitType={setUnitType} unitType={unitType} />
         <Routes>
           <Route
             path="/"
@@ -29,6 +32,7 @@ function App() {
               <HomePage
                 locationServicesDisabled={locationServicesDisabled}
                 setUserLocation={setUserLocation}
+                unitType={unitType}
                 userLocation={userLocation}
               />
             }
