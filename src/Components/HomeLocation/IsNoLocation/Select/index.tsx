@@ -1,24 +1,26 @@
-import { FC, useContext } from 'react';
-
-import Context from '../../../../context';
+import { FC } from 'react';
 
 interface SelectProps {
+  locationServicesDisabled: boolean | null;
   setFormType: (type: string) => void;
+  setHideHomeLocation: (value: boolean) => void;
   setIsAttemptingToGeolocate: (value: boolean) => void;
+  setUserLocation: (value: string) => void;
 }
 
 const Select: FC<SelectProps> = ({
+  locationServicesDisabled,
   setFormType,
+  setHideHomeLocation,
   setIsAttemptingToGeolocate,
+  setUserLocation,
 }) => {
-  const { state, setState } = useContext(Context);
-
   const useGeolocate = () => {
     setIsAttemptingToGeolocate(true);
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const locationStr = `${position.coords.latitude},${position.coords.longitude}`;
-        setState({ ...state, userLocation: locationStr });
+        setUserLocation(locationStr);
         localStorage.setItem('location', locationStr);
         setIsAttemptingToGeolocate(false);
       },
@@ -32,13 +34,10 @@ const Select: FC<SelectProps> = ({
     <>
       <p>How should we find your location?</p>
       <div style={{ backgroundColor: '#c4b7ff' }}>
-        <button
-          onClick={useGeolocate}
-          disabled={!!state.locationServicesDisabled}
-        >
+        <button onClick={useGeolocate} disabled={!!locationServicesDisabled}>
           Get location automatically
         </button>
-        {state.locationServicesDisabled && (
+        {locationServicesDisabled && (
           <p>
             It looks like your settings are preventing us from finding your
             location automatically.
@@ -49,7 +48,7 @@ const Select: FC<SelectProps> = ({
         <button onClick={() => setFormType('manual')}>Enter location</button>
       </div>
       <div>
-        <button onClick={() => setFormType('skip')}>
+        <button onClick={() => setHideHomeLocation(true)}>
           Don't find my location
         </button>
       </div>

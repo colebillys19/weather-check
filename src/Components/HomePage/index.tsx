@@ -4,13 +4,28 @@ import MainContainer from '../MainContainer';
 import HomeSection from '../HomeSection';
 import HomeLocation from '../HomeLocation';
 
-const HomePage = () => {
+interface HomePageProps {
+  locationServicesDisabled: boolean | null;
+  setUserLocation: (value: string) => void;
+  userLocation: string;
+}
+
+const HomePage: FC<HomePageProps> = ({
+  locationServicesDisabled,
+  setUserLocation,
+  userLocation,
+}) => {
   const [hideHomeLocation, setHideHomeLocation] = useState(false);
 
   return (
     <MainContainer>
       {!hideHomeLocation && (
-        <HomeLocation setHideHomeLocation={setHideHomeLocation} />
+        <HomeLocation
+          setHideHomeLocation={setHideHomeLocation}
+          locationServicesDisabled={locationServicesDisabled}
+          setUserLocation={setUserLocation}
+          userLocation={userLocation}
+        />
       )}
       <HomeSection>
         <h2>Map</h2>

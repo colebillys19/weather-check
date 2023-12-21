@@ -1,26 +1,24 @@
-import { FC, useContext, useEffect, useRef, useState, FormEvent } from 'react';
+import { FC, FormEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { Loader, Libraries } from '@googlemaps/js-api-loader';
-
-import Context from '../../../../context';
 
 interface ManualEntryProps {
   setFormType: (type: string) => void;
   setIsCheckingIfAddressExists: (value: boolean) => void;
   setStep: (step: number) => void;
+  setUserLocation: (value: string) => void;
 }
 
 const ManualEntry: FC<ManualEntryProps> = ({
   setFormType,
   setIsCheckingIfAddressExists,
   setStep,
+  setUserLocation,
 }) => {
   const [isInputDisabled, setIsInputDisabled] = useState(true);
 
   const loaderRef = useRef<Loader | null>(null);
   const autoCompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const { state, setState } = useContext(Context);
 
   useEffect(() => {
     const googleApiInit = async () => {
@@ -69,7 +67,7 @@ const ManualEntry: FC<ManualEntryProps> = ({
             if (status === google.maps.GeocoderStatus.OK) {
               const location = results[0].geometry.location;
               const locationStr = `${location.lat()},${location.lng()}`;
-              setState({ ...state, userLocation: locationStr });
+              setUserLocation(locationStr);
               localStorage.setItem('location', locationStr);
               resolve(true);
             } else {
@@ -84,6 +82,16 @@ const ManualEntry: FC<ManualEntryProps> = ({
       console.error('Error:', error);
       setIsCheckingIfAddressExists(false);
     }
+  };
+
+  const handleCoordsClick = (e: MouseEvent) => {
+    e.preventDefault();
+    setFormType('coords');
+  };
+
+  const handleBackClick = (e: MouseEvent) => {
+    e.preventDefault();
+    setStep(1);
   };
 
   return (
@@ -110,12 +118,12 @@ const ManualEntry: FC<ManualEntryProps> = ({
         </div>
       </form>
       <div>
-        <a onClick={() => setFormType('coords')} href="#">
+        <a onClick={handleCoordsClick} href="#">
           Enter exact coordinates
         </a>
       </div>
       <div>
-        <a onClick={() => setStep(1)} href="#">
+        <a onClick={handleBackClick} href="#">
           Back
         </a>
       </div>

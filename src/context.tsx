@@ -1,15 +1,21 @@
-import { Dispatch, createContext, SetStateAction } from 'react';
+export default null;
 
-import { ContextType } from './utils/globalTypes';
+// import { Dispatch, createContext, SetStateAction } from 'react';
 
-interface ContextPropsType {
-  state: ContextType;
-  setState: Dispatch<SetStateAction<ContextType>>;
-}
+// interface ContextType {
+//   locationServicesDisabled: boolean | null;
+//   userLocation: string;
+// }
 
-export const DEFAULT_CONTEXT = { locationServicesDisabled: null, userLocation: '' };
 
-export default createContext<ContextPropsType>({
-  state: DEFAULT_CONTEXT,
-  setState: () => {},
-});
+// interface ContextPropsType {
+//   state: ContextType;
+//   setState: Dispatch<SetStateAction<ContextType>>;
+// }
+
+// export const DEFAULT_CONTEXT = { locationServicesDisabled: null, userLocation: '' };
+
+// export default createContext<ContextPropsType>({
+//   state: DEFAULT_CONTEXT,
+//   setState: () => {},
+// });

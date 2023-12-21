@@ -1,6 +1,5 @@
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 
-import Context from '../../context';
 import HomeSection from '../HomeSection';
 
 import IsNoLocation from './IsNoLocation';
@@ -8,52 +7,42 @@ import IsLocation from './IsLocation';
 import Loading from './Loading';
 
 interface HomeLocationProps {
+  locationServicesDisabled: boolean | null;
   setHideHomeLocation: (value: boolean) => void;
+  setUserLocation: (value: string) => void;
+  userLocation: string;
 }
 
-const HomeLocation: FC<HomeLocationProps> = ({ setHideHomeLocation }) => {
-  const [isCheckingLocalStorage, setIsCheckingLocalStorage] = useState(false);
-  const [isAttemptingToGeolocate, setIsAttemptingToGeolocate] = useState(false);
-  const [isCheckingIfAddressExists, setIsCheckingIfAddressExists] =
-    useState(false);
-  const [isContextLocation, setIsContextLocation] = useState(false);
-
-  const { state, setState } = useContext(Context);
-
-  // update local state based on context state
+const HomeLocation: FC<HomeLocationProps> = ({
+  locationServicesDisabled,
+  setHideHomeLocation,
+  setUserLocation,
+  userLocation,
+}) => {
   useEffect(() => {
-    setIsContextLocation(state.userLocation.length > 0);
-  }, [state.userLocation]);
-
-  useEffect(() => {
-    if (state.userLocation === '') {
+    if (userLocation === '') {
       const storageLocation = localStorage.getItem('location');
       if (!!storageLocation) {
-        setState({ ...state, userLocation: storageLocation });
+        setUserLocation(storageLocation);
       }
     }
-    setIsCheckingLocalStorage(false);
   }, []);
 
-  const isHomeLocationLoading =
-    state.locationServicesDisabled === null ||
-    isCheckingLocalStorage ||
-    isAttemptingToGeolocate ||
-    isCheckingIfAddressExists;
+  if (locationServicesDisabled === null) {
+    return <Loading />;
+  }
 
   return (
     <HomeSection>
-      {isHomeLocationLoading && <Loading />}
-      <div style={{ outline: '1px solid purple', padding: '12px' }}>
-        {!isContextLocation && (
-          <IsNoLocation
-            setHideHomeLocation={setHideHomeLocation}
-            setIsAttemptingToGeolocate={setIsAttemptingToGeolocate}
-            setIsCheckingIfAddressExists={setIsCheckingIfAddressExists}
-          />
-        )}
-        {isContextLocation && <IsLocation />}
-      </div>
+      {!!userLocation ? (
+        <IsLocation userLocation={userLocation} />
+      ) : (
+        <IsNoLocation
+          locationServicesDisabled={locationServicesDisabled}
+          setHideHomeLocation={setHideHomeLocation}
+          setUserLocation={setUserLocation}
+        />
+      )}
     </HomeSection>
   );
 };

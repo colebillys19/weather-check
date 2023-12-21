@@ -1,11 +1,30 @@
-import { useContext } from 'react';
+import { FC, useEffect, useState } from 'react';
 
-import Context from '../../../context';
+import { getLocationData } from '../../../utils/helpers';
+import Loading from './Loading';
 
-const IsLocation = () => {
-  const { state } = useContext(Context);
+interface IsLocationProps {
+  userLocation: string;
+}
 
-  return <p>Location: {state.userLocation}</p>;
+const IsLocation: FC<IsLocationProps> = ({ userLocation }) => {
+  const [isFetchingLocationData, setIsFetchingLocationData] = useState(true);
+
+  useEffect(() => {
+    const fetchLocationData = async () => {
+      const [lat, lon] = userLocation.split(',');
+      const yo = await getLocationData(Number(lat), Number(lon));
+      console.log(yo);
+      setIsFetchingLocationData(false);
+    };
+    fetchLocationData();
+  }, []);
+
+  if (isFetchingLocationData) {
+    return <Loading />;
+  }
+
+  return <p>Location: {userLocation}</p>;
 };
 
 export default IsLocation;

@@ -1,37 +1,49 @@
 import { FC, useState } from 'react';
 
 import Coords from './Coords';
+import Loading from './Loading';
 import ManualEntry from './ManualEntry';
 import Select from './Select';
 
 interface IsNoLocationProps {
+  locationServicesDisabled: boolean | null;
   setHideHomeLocation: (value: boolean) => void;
-  setIsAttemptingToGeolocate: (value: boolean) => void;
-  setIsCheckingIfAddressExists: (value: boolean) => void;
+  setUserLocation: (value: string) => void;
 }
 
 const IsNoLocation: FC<IsNoLocationProps> = ({
+  locationServicesDisabled,
   setHideHomeLocation,
-  setIsAttemptingToGeolocate,
-  setIsCheckingIfAddressExists,
+  setUserLocation,
 }) => {
   const [step, setStep] = useState(1);
   const [method, setMethod] = useState('');
+  const [isAttemptingToGeolocate, setIsAttemptingToGeolocate] = useState(false);
+  const [isCheckingIfAddressExists, setIsCheckingIfAddressExists] =
+    useState(false);
 
   const setFormType = (buttonId: string) => {
-    if (buttonId === 'skip') {
-      setHideHomeLocation(true);
-    } else {
-      setMethod(buttonId);
-      setStep(2);
-    }
+    setMethod(buttonId);
+    setStep(2);
   };
+
+  const isLoading =
+    locationServicesDisabled === null ||
+    isAttemptingToGeolocate ||
+    isCheckingIfAddressExists;
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   if (step === 1) {
     return (
       <Select
+        locationServicesDisabled={locationServicesDisabled}
         setFormType={setFormType}
+        setHideHomeLocation={setHideHomeLocation}
         setIsAttemptingToGeolocate={setIsAttemptingToGeolocate}
+        setUserLocation={setUserLocation}
       />
     );
   }
@@ -43,6 +55,7 @@ const IsNoLocation: FC<IsNoLocationProps> = ({
           setFormType={setFormType}
           setIsCheckingIfAddressExists={setIsCheckingIfAddressExists}
           setStep={setStep}
+          setUserLocation={setUserLocation}
         />
       );
     }
@@ -52,6 +65,7 @@ const IsNoLocation: FC<IsNoLocationProps> = ({
         <Coords
           setFormType={setFormType}
           setIsCheckingIfAddressExists={setIsCheckingIfAddressExists}
+          setUserLocation={setUserLocation}
         />
       );
     }

@@ -1,6 +1,4 @@
-import { FC, useContext, useState, ChangeEvent, FormEvent } from 'react';
-
-import Context from '../../../../context';
+import { ChangeEvent, FC, FormEvent, MouseEvent, useState } from 'react';
 
 const isValidLat = (num: number) => num >= -90 && num <= 90;
 const isValidLon = (num: number) => num >= -180 && num <= 180;
@@ -8,14 +6,17 @@ const isValidLon = (num: number) => num >= -180 && num <= 180;
 interface CoordsProps {
   setFormType: (type: string) => void;
   setIsCheckingIfAddressExists: (value: boolean) => void;
+  setUserLocation: (value: string) => void;
 }
 
-const Coords: FC<CoordsProps> = ({ setFormType, setIsCheckingIfAddressExists }) => {
+const Coords: FC<CoordsProps> = ({
+  setFormType,
+  setIsCheckingIfAddressExists,
+  setUserLocation,
+}) => {
   const [inputError, setInputError] = useState('');
   const [latValue, setLatValue] = useState('');
   const [lonValue, setLonValue] = useState('');
-
-  const { state, setState } = useContext(Context);
 
   const handleLatChange = (e: ChangeEvent<HTMLInputElement>) => {
     setLatValue(e.target.value);
@@ -54,7 +55,7 @@ const Coords: FC<CoordsProps> = ({ setFormType, setIsCheckingIfAddressExists }) 
             if (status === google.maps.GeocoderStatus.OK) {
               const location = results[0].geometry.location;
               const locationStr = `${location.lat()},${location.lng()}`;
-              setState({ ...state, userLocation: locationStr });
+              setUserLocation(locationStr);
               localStorage.setItem('location', locationStr);
               resolve(true);
             } else {
@@ -71,6 +72,11 @@ const Coords: FC<CoordsProps> = ({ setFormType, setIsCheckingIfAddressExists }) 
       console.error('Error:', error);
       setIsCheckingIfAddressExists(false);
     }
+  };
+
+  const handleManualClick = (e: MouseEvent) => {
+    e.preventDefault();
+    setFormType('manual');
   };
 
   return (
@@ -105,7 +111,7 @@ const Coords: FC<CoordsProps> = ({ setFormType, setIsCheckingIfAddressExists }) 
         </div>
       </form>
       {!!inputError && <div style={{ color: 'red' }}>{inputError}</div>}
-      <a onClick={() => setFormType('manual')} href="#">
+      <a onClick={handleManualClick} href="#">
         Back
       </a>
     </>
