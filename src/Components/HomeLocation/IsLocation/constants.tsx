@@ -1,0 +1,16 @@
+export const LOCATION_DATA_LOOKUP = [
+  { dataName: 'clouds', label: 'Clouds' },
+  { dataName: 'dew_point', label: 'Dew Point' },
+  { dataName: 'dt', label: 'DT' },
+  { dataName: 'feels_like', label: 'Feels Like' },
+  { dataName: 'humidity', label: 'Humidity' },
+  { dataName: 'pressure', label: 'Pressure' },
+  { dataName: 'sunrise', label: 'Sunrise' },
+  { dataName: 'sunset', label: 'Sunset' },
+  { dataName: 'temp', label: 'Temp' },
+  { dataName: 'uvi', label: 'UVI' },
+  { dataName: 'visibility', label: 'Visibility' },
+  { dataName: 'wind_deg', label: 'Wind Deg' },
+  { dataName: 'wind_gust', label: 'Wind Gust' },
+  { dataName: 'wind_speed', label: 'Wind Speed' },
+];
