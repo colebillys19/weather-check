@@ -37,7 +37,7 @@ function App() {
               />
             }
           />
-          <Route path="/location" element={<LocationPage />} />
+          <Route path="/location" element={<LocationPage unitType={unitType} />} />
         </Routes>
       </div>
     </Router>

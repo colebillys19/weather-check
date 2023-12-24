@@ -12,38 +12,17 @@ const Header: FC<HeaderProps> = ({ setUnitType, unitType }) => {
   return (
     <header>
       <nav>
-        <ul>
-          <li>
-            <NavLink
-              className="header-nav-link"
-              to="/"
-              onClick={(event) => {
-                if (
-                  event.currentTarget.getAttribute('aria-current') === 'page'
-                ) {
-                  event.preventDefault();
-                }
-              }}
-            >
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className="header-nav-link"
-              to="/location"
-              onClick={(event) => {
-                if (
-                  event.currentTarget.getAttribute('aria-current') === 'page'
-                ) {
-                  event.preventDefault();
-                }
-              }}
-            >
-              Location
-            </NavLink>
-          </li>
-        </ul>
+        <NavLink
+          className="header-nav-link"
+          to="/"
+          onClick={(event) => {
+            if (event.currentTarget.getAttribute('aria-current') === 'page') {
+              event.preventDefault();
+            }
+          }}
+        >
+          Home
+        </NavLink>
       </nav>
       <div>
         <span>

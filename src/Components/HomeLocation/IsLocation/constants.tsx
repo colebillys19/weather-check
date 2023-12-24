@@ -1,4 +1,4 @@
-export const LOCATION_DATA_LOOKUP = [
+export const LOCATION_DATA_CURRENT_LOOKUP = [
   { dataName: 'clouds', label: 'Clouds' },
   { dataName: 'dew_point', label: 'Dew Point' },
   { dataName: 'dt', label: 'DT' },

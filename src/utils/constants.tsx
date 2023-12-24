@@ -1,3 +1,32 @@
+export const LOCATION_DATA_LOOKUP = [
+  { dataName: 'current', label: 'Current' },
+  { dataName: 'daily', label: 'Daily' },
+  { dataName: 'hourly', label: 'Hourly' },
+  { dataName: 'lat', label: 'Lat' },
+  { dataName: 'lon', label: 'Lon' },
+  { dataName: 'minutely', label: 'Minutely' },
+  { dataName: 'timezone', label: 'Timezone' },
+  { dataName: 'timezone_offset', label: 'Timezone Offset' },
+];
+
+export const LOCATION_DATA_CURRENT_LOOKUP = [
+  { dataName: 'clouds', label: 'Clouds' },
+  { dataName: 'dew_point', label: 'Dew Point' },
+  { dataName: 'dt', label: 'DT' },
+  { dataName: 'feels_like', label: 'Feels Like' },
+  { dataName: 'humidity', label: 'Humidity' },
+  { dataName: 'pressure', label: 'Pressure' },
+  { dataName: 'sunrise', label: 'Sunrise' },
+  { dataName: 'sunset', label: 'Sunset' },
+  { dataName: 'temp', label: 'Temp' },
+  { dataName: 'uvi', label: 'UVI' },
+  { dataName: 'visibility', label: 'Visibility' },
+  { dataName: 'wind_deg', label: 'Wind Deg' },
+  { dataName: 'wind_gust', label: 'Wind Gust' },
+  { dataName: 'wind_speed', label: 'Wind Speed' },
+];
+
+
 export const DEFAULT_CITIES = {
   atlanta: { lat: 33.74932999277575, lon: -84.38753140958774 },
   baltimore: { lat: 39.289717167290966, lon: -76.61216825448822 },
