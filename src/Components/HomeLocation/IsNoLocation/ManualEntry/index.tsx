@@ -3,14 +3,14 @@ import { Loader, Libraries } from '@googlemaps/js-api-loader';
 
 interface ManualEntryProps {
   setFormType: (type: string) => void;
-  setIsCheckingIfAddressExists: (value: boolean) => void;
+  setIsVerifyingAddress: (value: boolean) => void;
   setStep: (step: number) => void;
   setUserLocation: (value: string) => void;
 }
 
 const ManualEntry: FC<ManualEntryProps> = ({
   setFormType,
-  setIsCheckingIfAddressExists,
+  setIsVerifyingAddress,
   setStep,
   setUserLocation,
 }) => {
@@ -52,7 +52,7 @@ const ManualEntry: FC<ManualEntryProps> = ({
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsCheckingIfAddressExists(true);
+    setIsVerifyingAddress(true);
 
     try {
       const geocoder = new google.maps.Geocoder();
@@ -74,13 +74,13 @@ const ManualEntry: FC<ManualEntryProps> = ({
               console.error('Promise rejected:', status);
               reject(false);
             }
-            setIsCheckingIfAddressExists(false);
+            setIsVerifyingAddress(false);
           },
         );
       });
     } catch (error) {
       console.error('Error:', error);
-      setIsCheckingIfAddressExists(false);
+      setIsVerifyingAddress(false);
     }
   };
 

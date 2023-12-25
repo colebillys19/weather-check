@@ -19,7 +19,7 @@ const IsNoLocation: FC<IsNoLocationProps> = ({
   const [step, setStep] = useState(1);
   const [method, setMethod] = useState('');
   const [isAttemptingToGeolocate, setIsAttemptingToGeolocate] = useState(false);
-  const [isCheckingIfAddressExists, setIsCheckingIfAddressExists] =
+  const [isVerifyingAddress, setIsVerifyingAddress] =
     useState(false);
 
   const setFormType = (buttonId: string) => {
@@ -30,7 +30,7 @@ const IsNoLocation: FC<IsNoLocationProps> = ({
   const isLoading =
     locationServicesDisabled === null ||
     isAttemptingToGeolocate ||
-    isCheckingIfAddressExists;
+    isVerifyingAddress;
 
   if (isLoading) {
     return <Loading />;
@@ -53,7 +53,7 @@ const IsNoLocation: FC<IsNoLocationProps> = ({
       return (
         <ManualEntry
           setFormType={setFormType}
-          setIsCheckingIfAddressExists={setIsCheckingIfAddressExists}
+          setIsVerifyingAddress={setIsVerifyingAddress}
           setStep={setStep}
           setUserLocation={setUserLocation}
         />
@@ -64,7 +64,7 @@ const IsNoLocation: FC<IsNoLocationProps> = ({
       return (
         <Coords
           setFormType={setFormType}
-          setIsCheckingIfAddressExists={setIsCheckingIfAddressExists}
+          setIsVerifyingAddress={setIsVerifyingAddress}
           setUserLocation={setUserLocation}
         />
       );

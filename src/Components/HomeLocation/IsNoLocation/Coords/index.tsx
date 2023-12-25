@@ -5,13 +5,13 @@ const isValidLon = (num: number) => num >= -180 && num <= 180;
 
 interface CoordsProps {
   setFormType: (type: string) => void;
-  setIsCheckingIfAddressExists: (value: boolean) => void;
+  setIsVerifyingAddress: (value: boolean) => void;
   setUserLocation: (value: string) => void;
 }
 
 const Coords: FC<CoordsProps> = ({
   setFormType,
-  setIsCheckingIfAddressExists,
+  setIsVerifyingAddress,
   setUserLocation,
 }) => {
   const [inputError, setInputError] = useState('');
@@ -41,7 +41,7 @@ const Coords: FC<CoordsProps> = ({
     }
 
     try {
-      setIsCheckingIfAddressExists(true);
+      setIsVerifyingAddress(true);
 
       const geocoder = new google.maps.Geocoder();
 
@@ -63,14 +63,14 @@ const Coords: FC<CoordsProps> = ({
               console.error('Promise rejected:', status);
               reject(false);
             }
-            setIsCheckingIfAddressExists(false);
+            setIsVerifyingAddress(false);
           },
         );
       });
     } catch (error) {
       setInputError('Invalid coordinates');
       console.error('Error:', error);
-      setIsCheckingIfAddressExists(false);
+      setIsVerifyingAddress(false);
     }
   };
 

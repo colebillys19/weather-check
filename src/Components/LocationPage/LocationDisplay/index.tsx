@@ -1,14 +1,16 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import { LOCATION_DATA_CURRENT_LOOKUP } from '../../../utils/constants';
 import { LocationData } from '../../../utils/globalTypes';
 
+// getCityName
+
 interface LocationDisplayProps {
   locationData: LocationData;
+  locationName: string;
 }
 
-const LocationDisplay: FC<LocationDisplayProps> = ({ locationData }) => {
-  console.log(locationData);
+const LocationDisplay: FC<LocationDisplayProps> = ({ locationData, locationName }) => {
   const {
     current: locationDataCurrent,
     daily: locationDataDaily,
@@ -22,6 +24,7 @@ const LocationDisplay: FC<LocationDisplayProps> = ({ locationData }) => {
 
   return (
     <>
+      <p><b>Name:</b>&nbsp;{locationName || 'Issue with name...'}</p>
       <p><b>Lat:</b>&nbsp;{lat}</p>
       <p><b>Lon:</b>&nbsp;{lon}</p>
       <p><b>Timezone:</b>&nbsp;{timezone}</p>
