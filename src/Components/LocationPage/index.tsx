@@ -1,5 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
-import { Loader, Libraries } from '@googlemaps/js-api-loader';
+import { FC, useEffect, useState } from 'react';
 
 import { checkCoordinatesStr, getLocationData } from '../../utils/helpers';
 import { LocationData } from '../../utils/globalTypes';
@@ -8,18 +7,17 @@ import LocationDisplay from './LocationDisplay';
 import Loading from './Loading';
 
 interface LocationPageProps {
+  googleMaps: typeof google.maps | null;
   unitType: string;
 }
 
-const LocationPage: FC<LocationPageProps> = ({ unitType }) => {
+const LocationPage: FC<LocationPageProps> = ({ googleMaps, unitType }) => {
   const [isAsyncError, setIsAsyncError] = useState(false);
-  const [isInvalidQueryArg, setIsInvalidQueryArg] = useState(false);
   const [isFetchingLocationData, setIsFetchingLocationData] = useState(true);
   const [isFetchingLocationName, setIsFetchingLocationName] = useState(true);
+  const [isInvalidQueryArg, setIsInvalidQueryArg] = useState(false);
   const [locationData, setLocationData] = useState<LocationData | null>(null);
   const [locationName, setLocationName] = useState('');
-
-  const loaderRef = useRef<Loader | null>(null);
 
   const urlParams = new URLSearchParams(window.location.search);
   const targetLocation = urlParams.get('location');
@@ -40,44 +38,44 @@ const LocationPage: FC<LocationPageProps> = ({ unitType }) => {
       setIsFetchingLocationData(true);
     }
     const fetchLocationData = async () => {
-      // setup
-      const loader = new Loader({
-        apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY || '',
-        libraries: ['places'] as Libraries,
-      });
-      loaderRef.current = loader;
-      const google = await loader.load();
-      const geocoder = new google.maps.Geocoder();
-      // do stuff
-      const [lat, lon] = targetLocation.split(',');
-      const locationData = await getLocationData(Number(lat), Number(lon), unitType);
-      try {
-        new Promise((resolve, reject) => {
-          geocoder.geocode(
-            { address: `${lat}, ${lon}` },
-            (
-              results: google.maps.GeocoderResult[],
-              status: google.maps.GeocoderStatus,
-            ) => {
-              if (status === google.maps.GeocoderStatus.OK) {
-                const locationObjLocality = results.find(({ types }) => types.includes('locality'));
-                setLocationName(locationObjLocality?.formatted_address || '');
-                resolve(true);
-                setIsFetchingLocationName(false)
-              } else {
-                reject(false);
-                setIsAsyncError(true);
-                setIsFetchingLocationName(false)
-              }
-            },
-          );
-        });
-      } catch (error) {
-        setIsAsyncError(true);
-        setIsFetchingLocationName(false)
+      if (googleMaps !== null) {
+        const geocoder = new googleMaps.Geocoder();
+        const [lat, lon] = targetLocation.split(',');
+        const locationData = await getLocationData(
+          Number(lat),
+          Number(lon),
+          unitType,
+        );
+        try {
+          new Promise((resolve, reject) => {
+            geocoder.geocode(
+              { address: `${lat}, ${lon}` },
+              (
+                results: google.maps.GeocoderResult[],
+                status: google.maps.GeocoderStatus,
+              ) => {
+                if (status === googleMaps.GeocoderStatus.OK) {
+                  const locationObjLocality = results.find(({ types }) =>
+                    types.includes('locality'),
+                  );
+                  setLocationName(locationObjLocality?.formatted_address || '');
+                  resolve(true);
+                  setIsFetchingLocationName(false);
+                } else {
+                  reject(false);
+                  setIsAsyncError(true);
+                  setIsFetchingLocationName(false);
+                }
+              },
+            );
+          });
+        } catch (error) {
+          setIsAsyncError(true);
+          setIsFetchingLocationName(false);
+        }
+        setLocationData(locationData);
+        setIsFetchingLocationData(false);
       }
-      setLocationData(locationData);
-      setIsFetchingLocationData(false);
     };
     fetchLocationData();
   }, [unitType]);
@@ -91,7 +89,11 @@ const LocationPage: FC<LocationPageProps> = ({ unitType }) => {
     );
   }
 
-  if (isFetchingLocationData || isFetchingLocationName || locationData === null) {
+  if (
+    isFetchingLocationData ||
+    isFetchingLocationName ||
+    locationData === null
+  ) {
     return (
       <MainContainer>
         <h1>Location Page</h1>
@@ -103,7 +105,10 @@ const LocationPage: FC<LocationPageProps> = ({ unitType }) => {
   return (
     <MainContainer>
       <h1>Location Page</h1>
-      <LocationDisplay locationData={locationData} locationName={locationName} />
+      <LocationDisplay
+        locationData={locationData}
+        locationName={locationName}
+      />
     </MainContainer>
   );
 };

@@ -5,6 +5,7 @@ import HomeSection from '../HomeSection';
 import HomeLocation from '../HomeLocation';
 
 interface HomePageProps {
+  googleMaps: typeof google.maps | null;
   locationServicesDisabled: boolean | null;
   setUserLocation: (value: string) => void;
   unitType: string;
@@ -12,6 +13,7 @@ interface HomePageProps {
 }
 
 const HomePage: FC<HomePageProps> = ({
+  googleMaps,
   locationServicesDisabled,
   setUserLocation,
   unitType,
@@ -23,11 +25,12 @@ const HomePage: FC<HomePageProps> = ({
     <MainContainer>
       {!hideHomeLocation && (
         <HomeLocation
-          setHideHomeLocation={setHideHomeLocation}
+          googleMaps={googleMaps}
           locationServicesDisabled={locationServicesDisabled}
+          setHideHomeLocation={setHideHomeLocation}
           setUserLocation={setUserLocation}
-          userLocation={userLocation}
           unitType={unitType}
+          userLocation={userLocation}
         />
       )}
       <HomeSection>

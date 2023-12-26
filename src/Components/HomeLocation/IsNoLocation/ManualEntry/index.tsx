@@ -1,7 +1,7 @@
 import { FC, FormEvent, MouseEvent, useEffect, useRef, useState } from 'react';
-import { Loader, Libraries } from '@googlemaps/js-api-loader';
 
 interface ManualEntryProps {
+  googleMaps: typeof google.maps | null;
   setFormType: (type: string) => void;
   setIsVerifyingAddress: (value: boolean) => void;
   setStep: (step: number) => void;
@@ -9,6 +9,7 @@ interface ManualEntryProps {
 }
 
 const ManualEntry: FC<ManualEntryProps> = ({
+  googleMaps,
   setFormType,
   setIsVerifyingAddress,
   setStep,
@@ -16,22 +17,13 @@ const ManualEntry: FC<ManualEntryProps> = ({
 }) => {
   const [isInputDisabled, setIsInputDisabled] = useState(true);
 
-  const loaderRef = useRef<Loader | null>(null);
   const autoCompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     const googleApiInit = async () => {
-      const loader = new Loader({
-        apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY || '',
-        libraries: ['places'] as Libraries,
-      });
-      loaderRef.current = loader;
-
-      const google = await loader.load();
-
-      if (inputRef.current) {
-        autoCompleteRef.current = new google.maps.places.Autocomplete(
+      if (inputRef.current && googleMaps !== null) {
+        autoCompleteRef.current = new googleMaps.places.Autocomplete(
           inputRef.current,
         );
       }
@@ -40,8 +32,8 @@ const ManualEntry: FC<ManualEntryProps> = ({
     googleApiInit();
 
     return () => {
-      if (autoCompleteRef.current) {
-        google.maps.event.clearInstanceListeners(autoCompleteRef.current);
+      if (autoCompleteRef.current && googleMaps !== null) {
+        googleMaps.event.clearInstanceListeners(autoCompleteRef.current);
       }
     };
   }, []);
@@ -55,29 +47,30 @@ const ManualEntry: FC<ManualEntryProps> = ({
     setIsVerifyingAddress(true);
 
     try {
-      const geocoder = new google.maps.Geocoder();
-
-      new Promise((resolve, reject) => {
-        geocoder.geocode(
-          { address: inputRef.current?.value },
-          (
-            results: google.maps.GeocoderResult[],
-            status: google.maps.GeocoderStatus,
-          ) => {
-            if (status === google.maps.GeocoderStatus.OK) {
-              const location = results[0].geometry.location;
-              const locationStr = `${location.lat()},${location.lng()}`;
-              setUserLocation(locationStr);
-              localStorage.setItem('location', locationStr);
-              resolve(true);
-            } else {
-              console.error('Promise rejected:', status);
-              reject(false);
-            }
-            setIsVerifyingAddress(false);
-          },
-        );
-      });
+      if (googleMaps !== null) {
+        const geocoder = new googleMaps.Geocoder();
+        new Promise((resolve, reject) => {
+          geocoder.geocode(
+            { address: inputRef.current?.value },
+            (
+              results: google.maps.GeocoderResult[],
+              status: google.maps.GeocoderStatus,
+            ) => {
+              if (status === googleMaps.GeocoderStatus.OK) {
+                const location = results[0].geometry.location;
+                const locationStr = `${location.lat()},${location.lng()}`;
+                setUserLocation(locationStr);
+                localStorage.setItem('location', locationStr);
+                resolve(true);
+              } else {
+                console.error('Promise rejected:', status);
+                reject(false);
+              }
+              setIsVerifyingAddress(false);
+            },
+          );
+        });
+      }
     } catch (error) {
       console.error('Error:', error);
       setIsVerifyingAddress(false);

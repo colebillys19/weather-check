@@ -6,12 +6,14 @@ import ManualEntry from './ManualEntry';
 import Select from './Select';
 
 interface IsNoLocationProps {
+  googleMaps: typeof google.maps | null;
   locationServicesDisabled: boolean | null;
   setHideHomeLocation: (value: boolean) => void;
   setUserLocation: (value: string) => void;
 }
 
 const IsNoLocation: FC<IsNoLocationProps> = ({
+  googleMaps,
   locationServicesDisabled,
   setHideHomeLocation,
   setUserLocation,
@@ -52,6 +54,7 @@ const IsNoLocation: FC<IsNoLocationProps> = ({
     if (method === 'manual') {
       return (
         <ManualEntry
+          googleMaps={googleMaps}
           setFormType={setFormType}
           setIsVerifyingAddress={setIsVerifyingAddress}
           setStep={setStep}

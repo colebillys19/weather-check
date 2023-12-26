@@ -7,6 +7,7 @@ import IsLocation from './IsLocation';
 import Loading from './Loading';
 
 interface HomeLocationProps {
+  googleMaps: typeof google.maps | null;
   locationServicesDisabled: boolean | null;
   setHideHomeLocation: (value: boolean) => void;
   setUserLocation: (value: string) => void;
@@ -15,6 +16,7 @@ interface HomeLocationProps {
 }
 
 const HomeLocation: FC<HomeLocationProps> = ({
+  googleMaps,
   locationServicesDisabled,
   setHideHomeLocation,
   setUserLocation,
@@ -40,6 +42,7 @@ const HomeLocation: FC<HomeLocationProps> = ({
         <IsLocation unitType={unitType} userLocation={userLocation} />
       ) : (
         <IsNoLocation
+          googleMaps={googleMaps}
           locationServicesDisabled={locationServicesDisabled}
           setHideHomeLocation={setHideHomeLocation}
           setUserLocation={setUserLocation}

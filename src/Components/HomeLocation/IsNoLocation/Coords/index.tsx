@@ -1,7 +1,6 @@
 import { ChangeEvent, FC, FormEvent, MouseEvent, useState } from 'react';
 
-const isValidLat = (num: number) => num >= -90 && num <= 90;
-const isValidLon = (num: number) => num >= -180 && num <= 180;
+import { isValidCoordinates } from '../../../../utils/helpers';
 
 interface CoordsProps {
   setFormType: (type: string) => void;
@@ -35,7 +34,7 @@ const Coords: FC<CoordsProps> = ({
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!isValidLat(Number(latValue)) || !isValidLon(Number(lonValue))) {
+    if (!isValidCoordinates(Number(latValue), Number(lonValue))) {
       setInputError('Invalid coordinates');
       return;
     }
