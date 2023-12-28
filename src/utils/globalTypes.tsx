@@ -1,4 +1,4 @@
-export interface LocationDataCurrent {
+export interface OpenWeatherLocationDataCurrent {
   clouds: number;
   dew_point: number;
   dt: number;
@@ -10,20 +10,20 @@ export interface LocationDataCurrent {
   temp: number;
   uvi: number;
   visibility: number;
-  weather: [];
+  weather: OpenWeatherWeatherData[];
   wind_deg: number;
   wind_gust: number;
   wind_speed: number;
 }
 
-export interface LocationDataDailyFeelsLike {
+export interface OpenWeatherLocationDataDailyFeelsLike {
   day: number;
   eve: number;
   morn: number;
   night: number;
 }
 
-export interface LocationDataDailyTemp {
+export interface OpenWeatherLocationDataDailyTemp {
   day: number;
   eve: number;
   max: number;
@@ -32,11 +32,11 @@ export interface LocationDataDailyTemp {
   night: number;
 }
 
-export interface LocationDataDailyItem {
+export interface OpenWeatherLocationDataDailyItem {
   clouds: number;
   dew_point: number;
   dt: number;
-  feels_like: LocationDataDailyFeelsLike;
+  feels_like: OpenWeatherLocationDataDailyFeelsLike;
   humidity: number;
   moon_phase: number;
   moonrise: number;
@@ -47,7 +47,7 @@ export interface LocationDataDailyItem {
   summary: string;
   sunrise: number;
   sunset: number;
-  temp: LocationDataDailyTemp;
+  temp: OpenWeatherLocationDataDailyTemp;
   uvi: number;
   weather: [];
   wind_deg: number;
@@ -55,7 +55,7 @@ export interface LocationDataDailyItem {
   wind_speed: number;
 }
 
-export interface LocationDataHourlyItem {
+export interface OpenWeatherLocationDataHourlyItem {
   clouds: number;
   dew_point: number;
   dt: number;
@@ -66,31 +66,29 @@ export interface LocationDataHourlyItem {
   temp: number;
   uvi: number;
   visibility: number;
-  weather: [];
+  weather: OpenWeatherWeatherData[];
   wind_deg: number;
   wind_gust: number;
   wind_speed: number;
 }
 
-export interface LocationDataMinutelyItem {
+export interface OpenWeatherLocationDataMinutelyItem {
   dt: number;
   precipitation: number;
 }
 
-export interface LocationData {
-  current: LocationDataCurrent;
-  daily: [];
-  hourly: [];
-  minutely: [];
+export interface OpenWeatherLocationData {
+  current: OpenWeatherLocationDataCurrent;
+  daily: OpenWeatherLocationDataDailyItem[];
+  hourly: OpenWeatherLocationDataHourlyItem[];
+  minutely: OpenWeatherLocationDataMinutelyItem[];
   lat: number;
   lon: number;
   timezone: string;
   timezone_offset: number;
 }
 
-//
-
-export interface WeatherData {
+export interface OpenWeatherWeatherData {
   description: string;
   icon: string;
   id: number;

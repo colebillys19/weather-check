@@ -13,8 +13,7 @@ function App() {
   const [unitType, setUnitType] = useState('imperial');
 
   const loaderRef = useRef<Loader | null>(null);
-
-  let googleMaps = null;
+  const googleMapsRef = useRef<typeof google.maps | null>(null);
 
   useEffect(() => {
     const googleApiInit = async () => {
@@ -24,7 +23,7 @@ function App() {
       });
       loaderRef.current = loader;
       const google = await loader.load();
-      googleMaps = google.maps;
+      googleMapsRef.current = google.maps;
     };
 
     googleApiInit();
@@ -49,7 +48,7 @@ function App() {
             path="/"
             element={
               <HomePage
-                googleMaps={googleMaps}
+                googleMaps={googleMapsRef.current}
                 locationServicesDisabled={locationServicesDisabled}
                 setUserLocation={setUserLocation}
                 unitType={unitType}
@@ -60,7 +59,7 @@ function App() {
           <Route
             path="/location"
             element={
-              <LocationPage googleMaps={googleMaps} unitType={unitType} />
+              <LocationPage googleMaps={googleMapsRef.current} unitType={unitType} />
             }
           />
         </Routes>

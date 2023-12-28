@@ -1,10 +1,41 @@
 import { FC, useEffect, useState } from 'react';
 
+import {
+  OpenWeatherLocationData,
+  OpenWeatherLocationDataDailyItem,
+  OpenWeatherWeatherData,
+} from '../../utils/globalTypes';
 import { checkCoordinatesStr, getLocationData } from '../../utils/helpers';
-import { LocationData } from '../../utils/globalTypes';
 import MainContainer from '../MainContainer';
 import LocationDisplay from './LocationDisplay';
 import Loading from './Loading';
+
+const aaa: OpenWeatherLocationData = {
+  current: {
+    clouds: 0,
+    dew_point: 0,
+    dt: 0,
+    feels_like: 0,
+    humidity: 0,
+    pressure: 0,
+    sunrise: 0,
+    sunset: 0,
+    temp: 0,
+    uvi: 0,
+    visibility: 0,
+    weather: [] as OpenWeatherWeatherData[],
+    wind_deg: 0,
+    wind_gust: 0,
+    wind_speed: 0,
+  },
+  daily: [] as OpenWeatherLocationDataDailyItem[],
+  hourly: [],
+  minutely: [],
+  lat: 0,
+  lon: 0,
+  timezone: '',
+  timezone_offset: 0,
+};
 
 interface LocationPageProps {
   googleMaps: typeof google.maps | null;
@@ -12,11 +43,9 @@ interface LocationPageProps {
 }
 
 const LocationPage: FC<LocationPageProps> = ({ googleMaps, unitType }) => {
-  const [isAsyncError, setIsAsyncError] = useState(false);
   const [isFetchingLocationData, setIsFetchingLocationData] = useState(true);
-  const [isFetchingLocationName, setIsFetchingLocationName] = useState(true);
   const [isInvalidQueryArg, setIsInvalidQueryArg] = useState(false);
-  const [locationData, setLocationData] = useState<LocationData | null>(null);
+  const [locationData, setLocationData] = useState(aaa);
   const [locationName, setLocationName] = useState('');
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -37,50 +66,29 @@ const LocationPage: FC<LocationPageProps> = ({ googleMaps, unitType }) => {
     if (!isFetchingLocationData) {
       setIsFetchingLocationData(true);
     }
-    const fetchLocationData = async () => {
-      if (googleMaps !== null) {
-        const geocoder = new googleMaps.Geocoder();
+    if (googleMaps !== null) {
+      const fetchLocationData = async () => {
         const [lat, lon] = targetLocation.split(',');
-        const locationData = await getLocationData(
-          Number(lat),
-          Number(lon),
+        const { data, error, name } = await getLocationData({
+          googleMaps,
+          lat: Number(lat),
+          lon: Number(lon),
           unitType,
-        );
-        try {
-          new Promise((resolve, reject) => {
-            geocoder.geocode(
-              { address: `${lat}, ${lon}` },
-              (
-                results: google.maps.GeocoderResult[],
-                status: google.maps.GeocoderStatus,
-              ) => {
-                if (status === googleMaps.GeocoderStatus.OK) {
-                  const locationObjLocality = results.find(({ types }) =>
-                    types.includes('locality'),
-                  );
-                  setLocationName(locationObjLocality?.formatted_address || '');
-                  resolve(true);
-                  setIsFetchingLocationName(false);
-                } else {
-                  reject(false);
-                  setIsAsyncError(true);
-                  setIsFetchingLocationName(false);
-                }
-              },
-            );
-          });
-        } catch (error) {
-          setIsAsyncError(true);
-          setIsFetchingLocationName(false);
+        });
+        if (!!error) {
+          console.error('Something went wrong - LocationPage.');
+          setIsFetchingLocationData(false);
+        } else if (data !== null) {
+          setLocationData(data);
+          setLocationName(name);
+          setIsFetchingLocationData(false);
         }
-        setLocationData(locationData);
-        setIsFetchingLocationData(false);
-      }
-    };
-    fetchLocationData();
+      };
+      fetchLocationData();
+    }
   }, [unitType]);
 
-  if (isInvalidQueryArg || isAsyncError) {
+  if (isInvalidQueryArg) {
     return (
       <MainContainer>
         <h1>Location Page</h1>
@@ -89,11 +97,7 @@ const LocationPage: FC<LocationPageProps> = ({ googleMaps, unitType }) => {
     );
   }
 
-  if (
-    isFetchingLocationData ||
-    isFetchingLocationName ||
-    locationData === null
-  ) {
+  if (isFetchingLocationData || locationData === null || googleMaps === null) {
     return (
       <MainContainer>
         <h1>Location Page</h1>

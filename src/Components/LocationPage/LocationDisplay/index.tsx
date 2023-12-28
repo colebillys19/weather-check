@@ -1,12 +1,12 @@
 import { FC, useEffect } from 'react';
 
 import { LOCATION_DATA_CURRENT_LOOKUP } from '../../../utils/constants';
-import { LocationData } from '../../../utils/globalTypes';
+import { OpenWeatherLocationData } from '../../../utils/globalTypes';
 
 // getCityName
 
 interface LocationDisplayProps {
-  locationData: LocationData;
+  locationData: OpenWeatherLocationData;
   locationName: string;
 }
 

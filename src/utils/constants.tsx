@@ -26,7 +26,6 @@ export const LOCATION_DATA_CURRENT_LOOKUP = [
   { dataName: 'wind_speed', label: 'Wind Speed' },
 ];
 
-
 export const DEFAULT_CITIES = {
   atlanta: { lat: 33.74932999277575, lon: -84.38753140958774 },
   baltimore: { lat: 39.289717167290966, lon: -76.61216825448822 },

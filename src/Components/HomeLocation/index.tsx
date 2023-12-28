@@ -32,14 +32,18 @@ const HomeLocation: FC<HomeLocationProps> = ({
     }
   }, []);
 
-  if (locationServicesDisabled === null) {
+  if (locationServicesDisabled === null || googleMaps === null) {
     return <Loading />;
   }
 
   return (
     <HomeSection>
       {!!userLocation ? (
-        <IsLocation unitType={unitType} userLocation={userLocation} />
+        <IsLocation
+          googleMaps={googleMaps}
+          unitType={unitType}
+          userLocation={userLocation}
+        />
       ) : (
         <IsNoLocation
           googleMaps={googleMaps}

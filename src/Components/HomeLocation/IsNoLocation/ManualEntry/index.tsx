@@ -26,6 +26,8 @@ const ManualEntry: FC<ManualEntryProps> = ({
         autoCompleteRef.current = new googleMaps.places.Autocomplete(
           inputRef.current,
         );
+      } else {
+        console.error('Something is wrong - ManualEntry A.');
       }
     };
 
@@ -34,6 +36,8 @@ const ManualEntry: FC<ManualEntryProps> = ({
     return () => {
       if (autoCompleteRef.current && googleMaps !== null) {
         googleMaps.event.clearInstanceListeners(autoCompleteRef.current);
+      } else {
+        console.error('Something is wrong - ManualEntry B.');
       }
     };
   }, []);
